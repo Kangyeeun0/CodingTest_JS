@@ -1,16 +1,17 @@
 def solution(brown, yellow):
     answer = []
-    total = brown + yellow
-    i=1
-    a=0
-    b=0
-    while i*i <=total :
-        if total % i == 0 :
-            a = total //i
-            b= i
-        i+=1
-        if (a-2) * (b-2) == yellow :
-            return [a,b]
+    width = brown + yellow
+    
+    for i in range(1, int(yellow**0.5) + 1) :
+        if yellow % i == 0 :
+            w = yellow // i
+            
+            W = w + 2
+            H = i + 2
+            
+            if W*H == width :
+                return [W, H]
+            
         
-        
-    return [a,b]
+    
+    return answer
