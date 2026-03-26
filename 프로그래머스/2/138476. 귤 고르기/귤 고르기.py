@@ -1,19 +1,15 @@
 def solution(k, tangerine):
     answer = 0
-    d = {}
+    d= {} # 딕셔너리 생성
     
-    for i in tangerine :
-        d[i] = d.get(i, 0) + 1
+    for t in tangerine :
+        d[t] = d.get(t, 0) + 1
     
-    counts = sorted(d.values(), reverse=True)
-    
-    for j in range(len(counts)) :
-        if k-counts[j] >0 :
-            k-=counts[j]
-            answer+=1
-        else :
-            answer+=1
-            break
-    
-    
+    sorted_d = sorted(d.items(), key= lambda x: x[1], reverse = True)
+    i=0
+    total=0
+    while total < k :
+        total+=sorted_d[i][1]
+        i+=1
+        answer+=1
     return answer
