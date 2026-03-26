@@ -1,18 +1,31 @@
-def solution(arr) :
+def solution(arr):
     answer = 0
-    def mdf(a,b) :
-        while b != 0 :
-            temp = b
-            b = a%b
-            a = temp
-        return a
+    n = len(arr)
     
-    for i in range(len(arr)-1) :
-        if i == 0 :
-            mid = arr[i]*arr[i+1] // mdf(arr[i], arr[i+1])
-            answer=mid
+    def gcd(a,b) :
+        if a>=b :
+            big = a
+            small = b
         else :
-            mid = answer*arr[i+1] // mdf(answer,arr[i+1])
-            answer=mid
+            big = b
+            small = a
+        while small != 0 :
+            tmp = big
+            big = small
+            small = tmp % small        
+        return big
+
+    mcdValue = 0
+    
+    for i in range(n-1) :
+        if mcdValue == 0 :
+            gcdValue = gcd(arr[i+1],arr[i])
+            mcdValue = arr[i+1] * arr[i] // gcdValue
+        else :
+            gcdValue = gcd(mcdValue, arr[i+1])
+            mcdValue = arr[i+1] * mcdValue // gcdValue
+    
+    answer = mcdValue
+        
     
     return answer
