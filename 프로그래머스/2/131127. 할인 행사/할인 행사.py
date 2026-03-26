@@ -1,24 +1,17 @@
-from collections import Counter
-
 def solution(want, number, discount):
     answer = 0
-    n = len(discount)
+    n= len(want)
+    d = {}
+    for i in range(n) :
+        d[want[i]] = number[i]
     
-    want_dict = { want[i] : number[i] for i in range(len(want)) }
+    for j in range(len(discount)-10+1) :
+        d2 = {}
+        for k in range(j, j+10) :
+            if discount[k] in want :
+                d2[discount[k]] = d2.get(discount[k], 0) + 1
     
-    for i in range(len(discount)-9) :
-        window = discount [i:i+10]
-        window_count = Counter(window)
-        
-        ok = True
-        for item, cnt in want_dict.items() :
-            if window_count.get(item, 0) < cnt :
-                ok = False
-                break
-                
-        if ok :
-            answer+=1
-                
-    
+        if d == d2 :
+            answer+=1         
     
     return answer
