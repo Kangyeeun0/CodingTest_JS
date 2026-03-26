@@ -1,33 +1,33 @@
-from collections import deque
-
 def solution(s):
     answer = 0
-    extended = s*2
+    n = len(s)
+    s= s*2
+    # print(s)
     
-    for i in range(len(s)) :
-        q= deque()
-        window = extended[i: len(s)+i]
-        valid = True
-
-        for j in range(len(s)) :
-            if window[j] == '[' or window[j] == '{' or window[j] == '(' :
-                q.append(window[j])
-            else :
-                if not q :
-                    valid = False
-                    break
-                if window[j] == ']' and q[-1] == '[' :
-                    q.pop()
-                elif window[j] == '}' and q[-1] == '{' :
-                    q.pop()
-                elif window[j] == ')' and q[-1] == '(' :
-                    q.pop()
+    for i in range(n) :
+        stack = []
+        for j in range(i, i+n):
+            if s[j] in ['(', '{', '['] :
+                stack.append(s[j])
+            elif s[j] == ')' :
+                if stack and stack[-1] == '(' :
+                    stack.pop()
                 else :
-                    valid = False
-                    break
-                    
-        if len(q) == 0  and valid:
+                    stack.append(s[j])
+            elif s[j] == '}' :
+                if stack and stack[-1] == '{' :
+                    stack.pop()
+                else :
+                    stack.append(s[j])
+            elif s[j] == ']' :
+                if stack and stack[-1] == '[' :
+                    stack.pop()
+                else :
+                    stack.append(s[j])
+      
+        if not stack :
             answer+=1
-            
-        
-    return answer 
+
+    
+    
+    return answer
