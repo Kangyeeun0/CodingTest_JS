@@ -1,12 +1,13 @@
 def solution(clothes):
     answer = 1
-    dict = {}
+    n = len(clothes)
+    dic = {}
     
-    for i in range(len(clothes)) :
-        dict[clothes[i][1]] = dict.get(clothes[i][1],0) + 1
+    for i in range(n) :
+        dic[clothes[i][1]] = dic.get(clothes[i][1], 0) + 1
     
-    for item, cnt in dict.items() :
-        answer *= (cnt+1)
-        
-        
+    arr = list(dic.values())
+    for j in range(len(arr)) :
+        answer*=(arr[j]+1)
+    
     return answer - 1
