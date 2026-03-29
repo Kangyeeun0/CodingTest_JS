@@ -1,13 +1,12 @@
 def solution(sizes):
     answer = 0
-    col = []
-    row = []
+    max_a = 0
+    max_b = 0
     
     for i in range(len(sizes)) :
-        sizes[i].sort(reverse=False)
-        col.append(sizes[i][0])
-        row.append(sizes[i][1])
+        a,b = sizes[i]
+        max_a = max(max(a,b), max_a)
+        max_b = max(min(a,b), max_b)
     
-    answer = max(col) * max(row)
-    
-    return answer
+        
+    return max_a*max_b
