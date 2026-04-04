@@ -1,20 +1,23 @@
 def solution(word):
     answer = 0
-    arr =[]
+    m=['A', 'E', 'I', 'O', 'U']
+    words = []
+    
+    def generate(current) :
+        if current :
+            words.append(current)
+            
+        if len(current) < 5:
+            for vowel in m :
+                generate(current+vowel)
+    
+    generate("")
+    # print(words)
+    
+    return words.index(word) + 1
+        
+        
+        
     
     
-    for a in ['A', 'E', 'I', 'O', 'U'] :
-        arr.append(a)
-        for b in ['A', 'E', 'I', 'O', 'U'] :
-            arr.append(a+b)
-            for c in ['A', 'E', 'I', 'O', 'U'] :
-                arr.append(a+b+c)
-                for d in ['A', 'E', 'I', 'O', 'U'] :
-                    arr.append(a+b+c+d)
-                    for e in ['A', 'E', 'I', 'O', 'U'] :
-                        arr.append(a+b+c+d+e)
-                        
-                        
-    
-    
-    return arr.index(word) + 1
+    return answer
