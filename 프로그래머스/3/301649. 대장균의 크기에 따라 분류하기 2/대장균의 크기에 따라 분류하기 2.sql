@@ -1,0 +1,9 @@
+SELECT G.ID, CASE
+                WHEN SIZE = 1 THEN 'CRITICAL'
+                WHEN SIZE = 2 THEN 'HIGH'
+                WHEN SIZE = 3 THEN 'MEDIUM'
+                ELSE 'LOW'
+                END AS COLONY_NAME
+FROM (SELECT E.ID, NTILE(4) OVER (ORDER BY E.SIZE_OF_COLONY DESC) AS SIZE
+      FROM ECOLI_DATA AS E ) AS G
+ORDER BY G.ID ASC
