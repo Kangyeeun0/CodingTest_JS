@@ -1,36 +1,32 @@
 from collections import deque
 def solution(begin, target, words):
-    answer = 0   
+    answer = 0
+    N = len(words)
+    visited = [False] * N
     
-    if target not in words :
-        return 0
-
-    # 한 글자만 다른지 체크하는 함수 :
-    def can_convert(word1, word2) :
-        diff_count = 0
+    def canDiff(word1, word2) :
+        n= 0
         for i in range(len(word1)) :
             if word1[i] != word2[i] :
-                diff_count+=1
-        if diff_count == 1:
-            return 1
+                n+=1
+        if n == 1 :
+            return True
         else :
-            return 0
+            return False
     
-    #BFS
-    queue = deque([(begin, 0)])
-    visited = set([begin])
+    q = deque()
+    q.append((begin, 0))
     
-    while queue :
-     
-        current_word, count = queue.popleft()
+    while q :
+        word, cnt = q.popleft()
         
-        if current_word == target :
-            return count
+        if word == target :
+            return cnt
         
-        for word in words :
-            if word not in visited and can_convert(current_word, word) :
-                visited.add(word)
-                queue.append((word, count+1))
-                
+        for i in range(len(words)) :
+            if canDiff(words[i], word) and not visited[i] :
+                q.append((words[i],cnt+1))
+                visited[i] = True
+    
+    
     return 0
-    
