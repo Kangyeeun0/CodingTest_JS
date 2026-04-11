@@ -1,23 +1,17 @@
 def solution(word):
     answer = 0
-    m=['A', 'E', 'I', 'O', 'U']
-    words = []
+    vowel = ['A', 'E', 'I', 'O', 'U']
+    words= []
     
-    def generate(current) :
-        if current :
-            words.append(current)
+    def generate(w) :
+        if len(w) > 5  :
+            return 
+        if w:
+            words.append(w)
             
-        if len(current) < 5:
-            for vowel in m :
-                generate(current+vowel)
-    
-    generate("")
-    # print(words)
-    
+        for v in vowel :
+            generate(w+v)
+        
+    generate("") 
+
     return words.index(word) + 1
-        
-        
-        
-    
-    
-    return answer
