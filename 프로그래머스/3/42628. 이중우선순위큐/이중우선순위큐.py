@@ -1,28 +1,22 @@
-from collections import deque 
+import heapq
+
 def solution(operations):
-    answer = []
-    q=deque()
+    heap = []
     
-    for i in range(len(operations)) :
-        text, number = operations[i].split(" ")
-        if text == 'I' :
-            q.append(int(number))
-            q= deque(sorted(q))
-        elif text == 'D' and number == '1':
-            if q:
-                q.pop()
-        elif text == 'D' and number =='-1' :
-            if q:
-                q.popleft()
-            
-    arr=list(q)
+    for operation in operations:
+        cmd, num = operation.split()
+        num = int(num)
+        
+        if cmd == 'I':
+            heapq.heappush(heap, num)
+        elif cmd == 'D' and heap:
+            if num == 1:  # 최댓값 삭제
+                heap.remove(max(heap))
+                heapq.heapify(heap)
+            else:  # 최솟값 삭제
+                heapq.heappop(heap)
     
-    if not arr :
-        return [0,0]
-    elif len(arr) > 2 :
-        return [arr[-1], arr[0]]
-    elif len(arr) == 1 :
-        return [arr[0], arr[0]]
-    else :
-        return arr[::-1]
-    return answer
+    if not heap:
+        return [0, 0]
+    
+    return [max(heap), min(heap)]
