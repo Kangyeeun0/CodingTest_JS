@@ -3,19 +3,17 @@ def solution(k, dungeons):
     visited = [False] * len(dungeons)
     
     def game(k, cnt) :
-        max_count = cnt
-        for i in range(len(dungeons)) :
-            min_rest, used = dungeons[i]
-            if not visited[i] and min_rest<=k :
-                k-=used
-                visited[i] = True
-                max_count = max(max_count, game(k, cnt+1))
-                k+=used
-                visited[i] = False
-            
-        return max_count
-    
-    
-    
-    answer=game(k,0)
+        max_cnt = cnt
+        
+        for j in range(len(dungeons)) :
+            remain, use = dungeons[j]
+            if not visited[j] and k >= remain :
+                visited[j] = True
+                max_cnt = max(max_cnt, game(k-use, cnt+1)) 
+                visited[j] = False
+                
+        return max_cnt
+
+      
+    answer = game(k,0)    
     return answer
