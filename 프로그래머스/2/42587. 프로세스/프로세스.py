@@ -1,22 +1,24 @@
+from collections import deque
 def solution(priorities, location):
-    answer = 0
-    q = []
-    arr_prior=[]
-    
+    answer = 1
+    q = deque()
     for i in range(len(priorities)) :
-        arr_prior.append([i, priorities[i]])
-
-    while len(q)<len(priorities) :
-        target = arr_prior[0]
-        if target[1] < max(x[1] for x in arr_prior) :
-            arr_prior.pop(0)
-            arr_prior.append(target)
+        q.append([i, priorities[i]])
+    # print(q)
+    priorities.sort(reverse=True)
+    i=0
+    while q :
+        index, priority = q.popleft()
+        if priority == priorities[i] :
+            if index == location :
+                return answer
+            else :
+                answer+=1
+            i+=1
         else :
-            arr_prior.pop(0)
-            q.append(target)
-    
-    for j in range(len(q)) :
-        if q[j][0] == location :
-            return j+1
-
+            q.append([index, priority])
+            
+            
+        
+        
     return answer
