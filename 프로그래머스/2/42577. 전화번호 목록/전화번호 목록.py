@@ -1,11 +1,10 @@
 def solution(phone_book):
     answer = True
+    phone_book.sort()
     
-    hash_set = set(phone_book)
-    
-    for phone in phone_book :
-        for i in range(1, len(phone)):
-            if phone[:i] in hash_set :
-                return False
+    for i in range(len(phone_book)-1) :
+        phone = phone_book[i]
+        if phone == phone_book[i+1][0:len(phone)] :
+            return False     
             
     return answer
