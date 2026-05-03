@@ -1,21 +1,24 @@
-import math
 from collections import deque
+import math
 def solution(progresses, speeds):
     answer = []
     q = deque()
-    n = len(speeds)
+    speeds = deque(speeds)
     
-    for i in range(n) :
-        remain_day = math.ceil((100-progresses[i])/speeds[i])
-        q.append(remain_day) 
-        
+    for i in range(len(progresses)) :
+        q.append(math.ceil((100-progresses[i]) / speeds[i]))
+    # print(q)
+    
     while q :
-        day = q.popleft()
-        total_day = 1
-        i=0
-        while q and day >=q[i] :
+        first = q.popleft()
+        count = 1
+        while q and first >= q[0] :
             q.popleft()
-            total_day+=1
-        answer.append(total_day)
+            count+=1
         
+        answer.append(count)    
+        
+    # print(answer)
+    
+    
     return answer
