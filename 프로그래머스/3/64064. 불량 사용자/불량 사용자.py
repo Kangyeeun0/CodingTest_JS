@@ -2,8 +2,7 @@ def solution(user_id, banned_id):
     answer = 0
     ban_list = []
    
-    
-    
+
     for i in range(len(banned_id)) :
         id_cnt = 0
         ban_id = banned_id[i]
@@ -24,19 +23,19 @@ def solution(user_id, banned_id):
                     arr.append(user)
         ban_list.append(arr)
         
-        
+    # print(ban_list)    
     #DFS로 조합 찾기
-    result = set()
+    result = set ()
     
-    def dfs(index ,selected) :
+    def dfs(index, selected) :
         if index == len(ban_list) :
-            #정렬해서 set에 추가(중복 제거)
             result.add(tuple(sorted(selected)))
             return
-        
+            
         for user in ban_list[index] :
             if user not in selected :
-                dfs(index+1, selected + [user])
-    dfs(0,[])
+                dfs(index+1, selected +[user])
+    
+    dfs(0, [])
             
     return len(result)
