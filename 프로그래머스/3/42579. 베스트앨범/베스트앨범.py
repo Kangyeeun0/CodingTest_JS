@@ -1,23 +1,19 @@
 def solution(genres, plays):
     answer = []
     dic = dict()
-    genre_total = dict()
+    # dic_set = dict()
     
-    for i in range(len(plays)):
-        if genres[i] not in dic:
-            dic[genres[i]] = []
-            genre_total[genres[i]] = 0
-        dic[genres[i]].append([plays[i], i])
-        genre_total[genres[i]] += plays[i]
-    
-    # 수정 1: items()로 (장르, 총재생수) 튜플 정렬
-    genre_sort = sorted(genre_total.items(), key=lambda x: x[1], reverse=True)
-    
-    for genre, _ in genre_sort:  # (장르, 총재생수) 튜플
-        songs = sorted(dic[genre], key=lambda x: (-x[0], x[1]))
+    for i in range(len(genres)):
+        dic.setdefault(genres[i], []).append([i, plays[i]])
         
-        # 수정 2: 최대 2곡까지만
-        for i in range(min(2, len(songs))):
-            answer.append(songs[i][1])
+    sorted_dic = sorted(dic.items(), key= lambda x: sum(play for _, play in x[1]),  reverse=True)
+    # print(sorted_dic)
     
+    for i in range(len(sorted_dic)) :
+        one_set = sorted(sorted_dic[i][1], key= lambda x: (-x[1], x[0]))
+        # print(one_set)
+        for j in range(min(2, len(one_set))) :
+            answer.append(one_set[j][0])
+            
+
     return answer
