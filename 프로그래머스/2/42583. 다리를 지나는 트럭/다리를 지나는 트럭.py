@@ -1,29 +1,23 @@
 from collections import deque
 def solution(bridge_length, weight, truck_weights):
-    time = 0
+    bridge = deque([0] * bridge_length)
+    truck = deque(truck_weights)
     total_weight = 0
-    trucks = deque(truck_weights)
-    bridge = deque([0] * bridge_length)  # 다리 위 각 칸의 무게
+    # print(bridge)
+    time = 0
     
     while bridge :
-        time += 1
+        time +=1
+        total_weight -= bridge.popleft()
         
-        out = bridge.popleft()
-        total_weight -= out
-        
-        if trucks :
-        
-            if total_weight+trucks[0] <= weight :
-                truck = trucks.popleft()
-                bridge.append(truck)
-                total_weight += truck
+        if truck :
+            if total_weight + truck[0] <= weight :
+                t = truck.popleft()
+                total_weight+=t
+                bridge.append(t)
+                
             else :
                 bridge.append(0)
-            
-            
-        
-        
-        
-        
-        
+                
+    
     return time
