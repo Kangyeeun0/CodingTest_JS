@@ -1,18 +1,24 @@
 from collections import deque
-
 def solution(s):
     answer = True
-    q=deque()
+    q_s= deque(s)
+    cnt=0
     
-    for k in s :
-        if k == ')' and len(q)==0:
-            answer=False
-            break
-        elif k == '(' :
-            q.append(k)
-        elif k == ')' and q[-1]=='(' :
-            q.pop()
-            
-    if len(q)!=0 :
-        answer=False
-    return answer
+    first = q_s.popleft()
+    if first !="(" :
+        return False
+    else :
+        cnt +=1
+    
+    while q_s :
+        next_item = q_s.popleft()
+        
+        if next_item == '(' :
+            cnt+=1
+        elif next_item == ')' :
+            cnt-=1
+        
+        if cnt < 0 :
+            return False
+    
+    return True if cnt == 0 else False
