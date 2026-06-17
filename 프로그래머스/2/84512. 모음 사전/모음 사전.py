@@ -1,17 +1,25 @@
+## 다시 풀어보기
 def solution(word):
     answer = 0
-    vowel = ['A', 'E', 'I', 'O', 'U']
-    words= []
+    vowels = ['A', 'E', 'I', 'O', 'U']
     
     def generate(w) :
-        if len(w) > 5  :
-            return 
-        if w:
-            words.append(w)
-            
-        for v in vowel :
-            generate(w+v)
+        nonlocal answer
         
-    generate("") 
-
-    return words.index(word) + 1
+        if w == word :
+            return True
+        
+        if w != "" :
+            answer+=1
+        
+        if len(w) <5 :
+            for i in range(len(vowels)) :
+                if generate(w+vowels[i]) :
+                    return True
+        return False
+                
+        
+        
+    generate("")
+    
+    return answer + 1
