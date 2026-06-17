@@ -1,19 +1,21 @@
 def solution(k, dungeons):
-    answer = 0
+    answer = -1
     visited = [False] * len(dungeons)
     
-    def game(k, cnt) :
-        max_cnt = cnt
+    def dfs(power, cnt) :
+        nonlocal answer
+        answer = max(answer, cnt)
         
-        for j in range(len(dungeons)) :
-            remain, use = dungeons[j]
-            if not visited[j] and k >= remain :
-                visited[j] = True
-                max_cnt = max(max_cnt, game(k-use, cnt+1)) 
-                visited[j] = False
+        for i in range(len(dungeons)) :
+            if power >= dungeons[i][0] and not visited[i]:
+                power -= dungeons[i][1]
+                visited[i] = True
+                dfs(power, cnt+1)
+                ## 체력 감소하고 dfs 이후 돌아올 때 다시 체력 더해줘야 함
+                power+=dungeons[i][1]
+                visited[i] = False
                 
-        return max_cnt
-
-      
-    answer = game(k,0)    
+        
+    dfs(k,0)
+    
     return answer
