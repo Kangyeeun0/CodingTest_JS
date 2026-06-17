@@ -1,12 +1,16 @@
 def solution(sizes):
     answer = 0
-    max_a = 0
-    max_b = 0
+    a = 0
+    b = 0
     
     for i in range(len(sizes)) :
-        a,b = sizes[i]
-        max_a = max(max(a,b), max_a)
-        max_b = max(min(a,b), max_b)
+        sizes[i].sort()
     
+    for j in range(len(sizes)) :
+        if sizes[j][0] > a :
+            a = sizes[j][0]
+        if sizes[j][1] > b :
+            b = sizes[j][1]
         
-    return max_a*max_b
+    
+    return a*b
