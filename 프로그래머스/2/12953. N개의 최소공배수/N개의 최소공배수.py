@@ -1,31 +1,21 @@
 def solution(arr):
     answer = 0
-    n = len(arr)
     
-    def gcd(a,b) :
-        if a>=b :
-            big = a
-            small = b
-        else :
-            big = b
-            small = a
-        while small != 0 :
-            tmp = big
-            big = small
-            small = tmp % small        
-        return big
-
-    mcdValue = 0
+    # 두 수 최대 공약수 찾기
+    def lcm(a,b) :
+        tmp = 0
+        while b != 0 :
+            tmp = a
+            a = b
+            b = tmp % a
+            
+        return a
     
-    for i in range(n-1) :
-        if mcdValue == 0 :
-            gcdValue = gcd(arr[i+1],arr[i])
-            mcdValue = arr[i+1] * arr[i] // gcdValue
-        else :
-            gcdValue = gcd(mcdValue, arr[i+1])
-            mcdValue = arr[i+1] * mcdValue // gcdValue
+    if len(arr) <= 1 :
+        return arr[0]
+    cmp = arr[0] * arr[1] // lcm(arr[1], arr[0])
+    for i in range(2, len(arr)) :
+        cmp = cmp * arr[i] // lcm(max(cmp,arr[i]), min(cmp, arr[i]))
     
-    answer = mcdValue
-        
     
-    return answer
+    return cmp
