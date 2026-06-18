@@ -1,11 +1,14 @@
 def solution(n):
     ans = 0
+    start = n
     
-    while n > 0 :
-        if n % 2 == 0 :
-            n = n//2
+    while start > 0 :
+        if start % 2 == 0 :
+            start= start/2
         else :
-            n= n -1
-            ans +=1
+            start -= 1
+            ans+=1
+    
+    
 
     return ans
