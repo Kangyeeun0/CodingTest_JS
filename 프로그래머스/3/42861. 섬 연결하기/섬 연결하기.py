@@ -1,26 +1,31 @@
+## 개어려움
 def solution(n, costs):
     answer = 0
-    costs.sort(key=lambda x: x[2])
     parent = [i for i in range(n)]
     
     def find(x) :
         if parent[x] != x :
             parent[x] = find(parent[x])
-        
         return parent[x]
     
-    def union(a,b) :
-        root_a = find(a)
-        root_b = find(b)
+    def union(a, b) :
+        a = find(a)
+        b = find(b)
         
-        if root_a != root_b :
-            parent[root_b] = root_a
-            return True
-        return False
+        if a<b :
+            parent[b] = a
+        else :
+            parent[a] = b
     
-    for cost in costs :
-        if union(cost[0], cost[1]) :
-            answer+=cost[2]
+    costs.sort(key=lambda x: x[2])
+    
+    answer = 0
+    
+    for a, b, cost in costs :
+        if find(a) != find(b) :
+            union(a,b)
+            answer+= cost
         
-    
+        
+        
     return answer
