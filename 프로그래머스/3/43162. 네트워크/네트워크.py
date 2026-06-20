@@ -1,19 +1,24 @@
 def solution(n, computers):
     answer = 0
-    visited = [False] * len(computers)
+    visited = [False] * n
     
-    def dfs(current) :
-        visited[current] = True
+    def dfs(current, cnt) :
         
-        for next_node in range(len(computers)) :
-            if not visited[next_node] and computers[current][next_node] == 1 :
-                # visited[next_node] = True
-                dfs(next_node)
-    
-    for i in range(len(computers)) :
+        for j in range(n):
+            if not visited[j] and computers[current][j] == 1 :
+                visited[j] = True
+                dfs(j, cnt -1)
+                
+        return cnt
+                
+                
+                
+    for i in range(n) :
         if not visited[i] :
-            dfs(i)
+            visited[i] = True
+            dfs(i, 1)
             answer+=1
+            
     
     
     return answer
