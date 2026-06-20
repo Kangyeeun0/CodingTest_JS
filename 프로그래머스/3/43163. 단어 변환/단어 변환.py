@@ -1,32 +1,39 @@
-from collections import deque
+# DFS 문제인 거 같음
 def solution(begin, target, words):
-    answer = 0
-    N = len(words)
-    visited = [False] * N
+    answer = float('inf')
+    visited = [False] * len(words)
     
-    def canDiff(word1, word2) :
-        n= 0
-        for i in range(len(word1)) :
-            if word1[i] != word2[i] :
-                n+=1
-        if n == 1 :
-            return True
-        else :
-            return False
+    if target not in words :
+        return 0
     
-    q = deque()
-    q.append((begin, 0))
     
-    while q :
-        word, cnt = q.popleft()
+    def dfs(current, cnt) :
+        nonlocal answer
         
-        if word == target :
-            return cnt
+        if current == target :
+            answer = min(answer, cnt)
+            return
         
         for i in range(len(words)) :
-            if canDiff(words[i], word) and not visited[i] :
-                q.append((words[i],cnt+1))
-                visited[i] = True
+                if not visited[i]:
+                    dif_cnt = 0
+                    
+                    for j in range(len(current)) :
+                        if current[j] != words[i][j] :
+                            dif_cnt +=1
+                            
+                    if dif_cnt == 1:
+                        visited[i] = True
+                        dfs(words[i], cnt+1)
+                        visited[i] = False
+                        
+                            
+                    
+                    
+        
+    dfs(begin, 0)
+        
+            
     
     
-    return 0
+    return answer if answer !=float('inf') else 0
