@@ -1,12 +1,14 @@
 def solution(numbers):
     answer = [-1] * len(numbers)
-    stack = []
+    stack = [] # 아직 큰 수를 찾지 못한 인덱스 값을 저장
 
     for i in range(len(numbers)):
-        while stack and numbers[stack[-1]] < numbers[i]:
-            idx = stack.pop()
-            answer[idx] = numbers[i]
-
+        
+        while stack and numbers[stack[-1]] < numbers[i] :
+            answer[stack.pop()] = numbers[i]
+            
         stack.append(i)
+        
+        
 
     return answer
