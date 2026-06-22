@@ -1,33 +1,52 @@
+from collections import deque
 def solution(n, k):
     answer = 0
-    k_num = []
+    i=0
+    change_num = ""
+    target = ""
     
-    #n을 k진수로 변경
-    while n>=k :
-        r=n%k
-        k_num.append(r)
-        n//=k
-    k_num.append(n)
-    k_num=k_num[::-1]
+    #소수인지 판별하는 함수
+    def isPrime(num) :
+        if num == 1 :
+            return False
+        elif num == 2 :
+            return True
+        else :
+            for i in range(2,int(num**(1/2))+1) :
+                if num%i == 0:
+                    return False
+        return True
     
-    num="".join(map(str,k_num))
-    arr=num.split("0")
-    arr=[x for x in arr if x!=""]
-    print(arr)
+    #진수 변환
+    while n >= k :
+        change_num += str(n%k)
+        n = n//k
+        
+    change_num+=str(n)
+    str_n = change_num[::-1]
+        
     
-    for i in range(len(arr)) :
-        isPrime = True
-        if arr[i] == '2':
-            isPrime=True
-        elif arr[i] == '1' :
-            isPrime = False
-        else:
-            for j in range(2, int(int(arr[i])**0.5) + 1) :
-                if int(arr[i]) % j == 0 :
-                    isPrime = False
-                    break
-
-        if isPrime :
+    while i<len(str_n):
+        if str_n[i] != "0" :
+            target += str_n[i]
+            # print(target)
+            
+        else :
+            if len(target) > 0 :
+                # print(target)
+                if isPrime(int(target)) :
+                    answer+=1
+                    
+            target = ""
+        i +=1
+    
+    if len(target) > 0 :
+        if isPrime(int(target)) :
             answer+=1
     
+                
+        
+        
+        
+        
     return answer
