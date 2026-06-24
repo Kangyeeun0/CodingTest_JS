@@ -1,31 +1,19 @@
 def solution(files):
-    arr = []
     answer = []
-    
-    def split_filename(filename) :
-        head = ""
-        number = ""
-        tail = ""
-        
-        i = 0
-        while i < len(filename) and not filename[i].isdigit() :
-            head += filename[i]
-            i+=1
-        
-        while i < len(filename) and filename[i].isdigit() :
-            number += filename[i]
-            i+=1
-        
-        tail = filename[i:]
-        
-        return head, number, tail
-        
-    for file in files :
-        head, number, tail = split_filename(file)
-        arr.append([head, number, tail])
-    
-    arr.sort(key = lambda x:(x[0].upper(),int(x[1])))
-    
-    for a in arr :
-        answer.append(a[0]+a[1]+a[2])
-    return answer
+
+    for file in files:
+        start = 0
+
+        while not file[start].isdigit():
+            start += 1
+
+        end = start
+
+        while end < len(file) and file[end].isdigit() and end - start < 5:
+            end += 1
+
+        answer.append((file[:start], file[start:end], file[end:]))
+
+    answer.sort(key=lambda x: (x[0].lower(), int(x[1])))
+
+    return ["".join(x) for x in answer]
