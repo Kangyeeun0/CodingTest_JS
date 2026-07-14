@@ -1,25 +1,22 @@
 import heapq
 def solution(n, works):
     answer = 0
-    for i in range(len(works)) :
-        works[i] = -works[i]
-    heapq.heapify(works)
-    
+    heap = []
+    for work in works :
+        heap.append(-work)
+    heapq.heapify(heap)
+
     for i in range(n) :
-        work = -heapq.heappop(works)
-        if work > 0 :
-            work -= 1
-            heapq.heappush(works, -work)
-        else :
+        if abs(heap[0]) <= 0 :
             break
-            
-    for i in range(len(works)) :
-        answer += works[i] ** 2
-    
+        work = heapq.heappop(heap)
+
+        work = abs(work) - 1 
+        heapq.heappush(heap, -work)
         
-    # print(works)
         
-    
-    
+    while heap :
+        a= heapq.heappop(heap)
+        answer+=a*a
     
     return answer
