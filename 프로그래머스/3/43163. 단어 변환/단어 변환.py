@@ -1,39 +1,42 @@
-# DFS 문제인 거 같음
+# 너비우선탐색인 거 같음
 def solution(begin, target, words):
-    answer = float('inf')
-    visited = [False] * len(words)
+    answer = len(words)
+    isSame = [False] * len(words)
     
     if target not in words :
         return 0
     
-    
-    def dfs(current, cnt) :
+    def cntDiff(word1, word2) :
+        cnt = 0
+        for i in range(len(word1)) :
+            if word1[i] != word2[i] :
+                cnt+=1
+        if cnt == 1:
+            return True
+        else :
+            return False
+        
+    def bfs(word, count) :
         nonlocal answer
         
-        if current == target :
-            answer = min(answer, cnt)
-            return
+        
+        if word == target :
+            answer = min(answer, count)
+            return answer
         
         for i in range(len(words)) :
-                if not visited[i]:
-                    dif_cnt = 0
-                    
-                    for j in range(len(current)) :
-                        if current[j] != words[i][j] :
-                            dif_cnt +=1
-                            
-                    if dif_cnt == 1:
-                        visited[i] = True
-                        dfs(words[i], cnt+1)
-                        visited[i] = False
-                        
-                            
-                    
-                    
-        
-    dfs(begin, 0)
-        
+            if not isSame[i] and cntDiff(word, words[i]) :
+                isSame[i] = True
+                bfs(words[i], count+1)
+                isSame[i] = False
+                
             
+        
+        
+    for i in range(len(words)) :
+        if cntDiff(begin, words[i]) :
+            isSame[i] = True
+            bfs(words[i], 1)
+            isSame[i] = False
     
-    
-    return answer if answer !=float('inf') else 0
+    return answer
