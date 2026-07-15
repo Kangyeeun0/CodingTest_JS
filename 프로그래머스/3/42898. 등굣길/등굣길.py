@@ -1,20 +1,23 @@
 def solution(m, n, puddles):
     answer = 0
-    dp = [[0] * (m+1) for _ in range(n+1)]
-    dp[1][1] = 1
-    
+    dp = [[0] * m for _ in range(n)]
     puddles = set(map(tuple, puddles))
     
-    for y in range(1, n+1) :
-        for x in range(1, m+1) :
-            
-            if (x,y) in puddles :
-                dp[y][x] = 0
-                continue
-            if x==1 and y == 1:
-                continue
-                
-            dp[y][x] = dp[y-1][x] + dp[y][x-1]
-            
+    dp[0][0] = 1
     
-    return dp[n][m] % 1000000007
+    for i in range(n) :
+        for j in range(m) :
+            if i == 0 and j == 0 :
+                continue
+            if (j+1,i+1) in puddles :
+                dp[i][j] = 0
+            else :
+                if 0<=i-1<n and 0<=j-1<m :
+                    dp[i][j] = dp[i-1][j] + dp[i][j-1]
+                elif 0<=i-1<n :
+                    dp[i][j] = dp[i-1][j]
+                elif 0<=j-1<m :
+                    dp[i][j] = dp[i][j-1]
+                
+    # print(dp)
+    return dp[-1][-1] % 1000000007
