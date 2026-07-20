@@ -1,24 +1,32 @@
+from collections import deque
 def solution(record):
     answer = []
-    dic = dict()
-    arr=[]
+    chat = deque()
+    dic = {}
     
-    for i in range(len(record)) :
-        a = record[i].split(" ")
-        # print(a)
-        arr.append([a[0], a[1]])
-        if a[0] != "Leave":
-            dic[a[1]] = a[2]
-        # print(dic)
-    
-    # print(arr)
-    
-    for j in range(len(arr)) :
-        text, Id = arr[j]
-        name = dic[Id]
+    for r in record :
+        if r[0:5] == 'Leave' :
+            text, id = r.split(" ")
+        else :
+            text, id, name= r.split(" ")
+            
+        if text == 'Change' :
+            dic[id] = name
+        elif text == "Enter":
+            chat.append([text, id])
+            dic[id] = name
+        else :
+            chat.append([text, id])
+            
+    # print(chat, dic)
+    while chat :
+        text, id = chat.popleft()
         if text == 'Enter' :
-            answer.append(name + "님이 들어왔습니다.")
+            answer.append(dic[id]+"님이 들어왔습니다.")
         elif text == 'Leave' :
-            answer.append(name + "님이 나갔습니다.")
-
+            answer.append(dic[id]+"님이 나갔습니다.")
+    
+    
+        
+    
     return answer
