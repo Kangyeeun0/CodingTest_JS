@@ -1,19 +1,26 @@
 def solution(genres, plays):
     answer = []
-    dic = dict()
-    # dic_set = dict()
+    genre_dic = {}
+    total_dic = {}
     
-    for i in range(len(genres)):
-        dic.setdefault(genres[i], []).append([i, plays[i]])
+    for i in range(len(genres)) :
+        total_dic[genres[i]] = total_dic.get(genres[i], 0) + plays[i]
+        if genres[i] not in genre_dic :
+            genre_dic[genres[i]] = []
+        genre_dic[genres[i]].append([plays[i], i])
         
-    sorted_dic = sorted(dic.items(), key= lambda x: sum(play for _, play in x[1]),  reverse=True)
-    # print(sorted_dic)
+    # print(genre_dic, total_dic)
     
-    for i in range(len(sorted_dic)) :
-        one_set = sorted(sorted_dic[i][1], key= lambda x: (-x[1], x[0]))
-        # print(one_set)
-        for j in range(min(2, len(one_set))) :
-            answer.append(one_set[j][0])
+    total = sorted(total_dic.items(),key = lambda x:x[1], reverse= True)
+    # print(total)
+    
+    for i in range(len(total)) :
+        max_genre = total[i][0]
+        genre_list = sorted(genre_dic[max_genre], key = lambda x:x[0], reverse =True)
+        
+        for j in range(min(2, len(genre_list))) :
+            answer.append(genre_list[j][1])
+        
             
-
+            
     return answer
