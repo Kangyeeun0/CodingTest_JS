@@ -1,26 +1,35 @@
+from collections import deque
 def solution(storey):
-    arr = []
-    total =0
-    i=0
+    answer = 0
+    storey = str(storey)
+    q = deque([int(storey[x]) for x in range(len(storey)-1, -1, -1)])
+    print(q)
     
-    while storey > 0 :
-        a = storey%10
-        arr.append(a)
-        storey //=10
-    
-    while i < len(arr):
-        if arr[i] > 5 or (arr[i] == 5 and i+1 < len(arr) and arr[i+1] >= 5):
-            total +=(10-arr[i])
-            if i <len(arr)-1 :
-                arr[i+1]+=1
+    while q :
+        r = q.popleft()
+        if r >= 10 :
+            if not q :
+                q.append(r//10)
             else :
-                arr.append(1)
-        else :
-            total +=arr[i]
-        i+=1
-        print(arr)
-    return total
-        
+                q[0]+=1
+            r = r % 10
             
+        if r == 5:
+            if q and q[0] >= 5:
+                answer += 5
+                q[0] += 1
+            else:
+                answer += 5
+        elif r < 5 :
+            answer+=r
+        else :
+            answer += (10-r)
+            if q :
+                q[0]+=1
+            else :
+                q.append(1)
+    # print(arr)
     
-    return total
+
+    
+    return answer
