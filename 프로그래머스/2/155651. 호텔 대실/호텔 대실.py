@@ -1,31 +1,37 @@
-## 힙 쓰는 법 공부 ... Again ...
-
 import heapq
 def solution(book_time):
-    
     answer = 0
-    arr_min = []
-    rooms = []
+    arr = []
     
-    def change_min(time) :
-        h, m = time.split(':')
-        return int(h)*60 + int(m)
+    def changeTime(time) :
+        hour, minute = time.split(":")
+        return int(hour) * 60 + int(minute)
+    
+    for book in book_time :
+        start, end = book
+        start_min = changeTime(start)
+        end_min = changeTime(end)
+        arr.append([start_min,end_min])
         
-    for i in range(len(book_time)) :
-        start= change_min(book_time[i][0])
-        end = change_min(book_time[i][1])
-        arr_min.append([start,end])
+    arr.sort(key = lambda x:x[0])
+    room = []
+    heapq.heapify(room)
     
-    arr_min.sort(key=lambda x: x[0], reverse = False)
-    
-    ##
-    print(arr_min)
-    heapq.heappush(rooms, arr_min[0][1]+10)
-    
-    for start, end in arr_min[1:] :
-        if rooms[0] <= start :
-            heapq.heappop(rooms)
-        heapq.heappush(rooms, end+10)
-    
-    return len(rooms)
-    
+    for i in range(len(arr)) :
+        
+#         if not room :
+#             # room.append(arr[i][1])
+#             answer+=1
+        
+        if not room or room[0] + 10  > arr[i][0] :
+            answer+=1
+
+        else :
+            heapq.heappop(room)
+        heapq.heappush(room, arr[i][1])
+            
+        
+        
+        
+        
+    return answer
