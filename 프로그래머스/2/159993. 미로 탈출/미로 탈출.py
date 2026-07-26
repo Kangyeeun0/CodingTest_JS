@@ -1,50 +1,58 @@
 from collections import deque
+
+def bfs(maps, start, target):
+    n, m = len(maps), len(maps[0])
+    visited = [[False] * m for _ in range(n)]
+
+    q = deque()
+    q.append((start[0], start[1], 0))
+    visited[start[0]][start[1]] = True
+
+    dx = [1, -1, 0, 0]
+    dy = [0, 0, 1, -1]
+
+    while q:
+        x, y, dist = q.popleft()
+
+        if maps[x][y] == target:
+            return dist
+
+        for i in range(4):
+            nx = x + dx[i]
+            ny = y + dy[i]
+
+            if (
+                0 <= nx < n
+                and 0 <= ny < m
+                and not visited[nx][ny]
+                and maps[nx][ny] != 'X'
+            ):
+                visited[nx][ny] = True
+                q.append((nx, ny, dist + 1))
+
+    return -1
+
+
 def solution(maps):
-    answer = 0
-    n = len(maps[0])
-    m = len(maps)
-    
-    dx = [1,-1,0,0]
-    dy = [0,0,1,-1]
-    
-    def bfs(start, target) :
-        q = deque()
-        visited = [[False] * n for _ in range(m)]
-        # print(start)
-        x,y = start
-        q.append((x,y, 0))
-        visited[x][y] = True
+    start = lever = end = None
 
-        
-        while q:
-            x,y,d = q.popleft()
-            # print(maps[x][y])
-            if maps[x][y] == target :
-                return d
-        
-            for k in range(4) :
-                nx = x + dx[k]
-                ny = y + dy[k]
+    for i in range(len(maps)):
+        for j in range(len(maps[0])):
+            if maps[i][j] == 'S':
+                start = (i, j)
+            elif maps[i][j] == 'L':
+                lever = (i, j)
+            elif maps[i][j] == 'E':
+                end = (i, j)
 
-                if 0<=nx<m and 0<=ny<n and not visited[nx][ny] and maps[nx][ny] != "X" :
-                    visited[nx][ny] = True
-                    q.append((nx,ny, d+1))
-    
+    # S -> L
+    dist1 = bfs(maps, start, 'L')
+    if dist1 == -1:
         return -1
-    
-    for i in range(m) :
-        for j in range(n) :
-            if maps[i][j] == "S" :
-                start = (i,j)
-            elif maps[i][j] == "L" :
-                lever = (i,j)
-    
-    dist1 = bfs(start, "L")
-    dist2 = bfs(lever, "E")
-    # print(dist1,dist2)
-    
-    if dist1 ==-1 or dist2 == -1 :
+
+    # L -> E
+    dist2 = bfs(maps, lever, 'E')
+    if dist2 == -1:
         return -1
-    
-    answer = dist1 + dist2
-    return answer
+
+    return dist1 + dist2
