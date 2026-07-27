@@ -1,24 +1,24 @@
 def solution(gems):
-    answer = []
-    gems_dict = {}
-    min_len = len(gems) + 1
+    count = len(set(gems))
+    answer = [0, len(gems)-1]
+    gem_dic = {}
     left = 0
-    gem_cnt = len(set(gems))
+    # right = len(gems) -1
     
-    for i in range(len(gems)) :
-        right = i
-        gem = gems[i]
-        gems_dict[gem] = gems_dict.get(gem, 0) + 1
+    for right in range(len(gems)) :
+        gem_dic[gems[right]] = gem_dic.get(gems[right], 0) + 1
         
-        while gem_cnt == len(gems_dict) :
-            if min_len > right - left + 1 :
-                min_len = right - left + 1
-                answer = [left+1, right+1]
-                
-            gems_dict[gems[left]] -= 1
+        while len(gem_dic) == count :
             
-            if gems_dict[gems[left]] == 0 :
-                del gems_dict[gems[left]]
+            if right - left < answer[1] - answer[0] :
+                answer = [left, right]
+            
+            # if gem_dic[gems[left]] > 1 :
+            gem_dic[gems[left]] -= 1
+              
+            if gem_dic[gems[left]] == 0 :
+                del gem_dic[gems[left]]
+            
             left+=1
         
-    return answer
+    return [answer[0]+1,answer[1]+1]
