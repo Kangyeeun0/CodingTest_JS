@@ -1,30 +1,45 @@
 import heapq
+
 def solution(jobs):
     answer = 0
+    #요청할 작업 큐
+    need_q = []
     wait_q = []
-    heapq.heapify(wait_q)
-    heapq.heapify(jobs)
     current_time = 0
-    i=0
-    total_time = []
     
-    while jobs or wait_q :
-        while jobs and jobs[0][0] <= current_time :
-                job = heapq.heappop(jobs)
-                heapq.heappush(wait_q, [job[1], job[0]])
-                
+    heapq.heapify(wait_q)
+    heapq.heapify(need_q)
+    
+    for i in range(len(jobs)) :
+        heapq.heappush(need_q, (jobs[i][0], jobs[i][1], i+1))
+        
+    # print(need_q)
+        
+    while need_q or wait_q :
+        
+        while need_q and current_time >= need_q[0][0] :
+            start_time, need_time, num = heapq.heappop(need_q)
+            heapq.heappush(wait_q, (need_time, start_time, num))
+            
         if wait_q :
-            current_job = heapq.heappop(wait_q)
-            # print(current_job)
-            current_time += current_job[0]
+            need_time, start_time, num = heapq.heappop(wait_q)
+            current_time += need_time
             # print(current_time)
-            total_time.append(current_time - current_job[1])
+            # print(current_time - start_time)
+            answer+=(current_time - start_time)
+        
         else :
-            current_time = jobs[0][0]
+            start_time, need_time, num = heapq.heappop(need_q)
+            heapq.heappush(wait_q, (need_time, start_time, num))
+            current_time = start_time
             
             
-    for i in range(len(total_time)) :
-        answer+=total_time[i]
-                
-
-    return answer // len(total_time)
+            
+            
+            
+        
+    
+    
+    
+    
+    return answer//len(jobs)
