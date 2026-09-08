@@ -3,16 +3,18 @@ def solution(scoville, K):
     answer = 0
     heapq.heapify(scoville)
     
-    for i in range(len(scoville) - 1) :
-        if scoville[0] >= K :
+    while len(scoville) >= 2 :
+        first = heapq.heappop(scoville)
+        if first >= K :
             return answer
-        else:
-            first = heapq.heappop(scoville)
-            second = heapq.heappop(scoville)
-            mix = first + second * 2
-            heapq.heappush(scoville, mix)
-            answer+=1
+        second = heapq.heappop(scoville)
+        mix = first + (second*2)
+        heapq.heappush(scoville, mix)
+        answer+=1
         
-    if scoville[0] < K :
+    if scoville and scoville[0] >= K :
+        return answer
+    else :
         return -1
+    
     return answer
