@@ -1,11 +1,21 @@
 def solution(clothes):
     answer = 1
-    dic = dict()
+    closet = {}
     
     for clothe in clothes :
-        name, kind = clothe
-        dic[kind] = dic.get(kind, 0) + 1
+        c, t = clothe
+        
+        if t not in closet : 
+            closet[t] = []
+            
+        closet[t].append(c)
+            
     
-    for value in dic.values() :
-        answer *= (value+1)
-    return answer - 1
+    for key, value in (closet.items()):
+        # print(value)
+        answer *= (len(value)+1)
+        
+    
+    
+    
+    return answer-1
