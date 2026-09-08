@@ -1,26 +1,31 @@
 def solution(genres, plays):
     answer = []
-    genre_dic = {}
-    total_dic = {}
+    album = {}
+    arr = []
     
     for i in range(len(genres)) :
-        total_dic[genres[i]] = total_dic.get(genres[i], 0) + plays[i]
-        if genres[i] not in genre_dic :
-            genre_dic[genres[i]] = []
-        genre_dic[genres[i]].append([plays[i], i])
-        
-    # print(genre_dic, total_dic)
+        if genres[i] not in album :
+            album[genres[i]] = [0, []]
+        album[genres[i]][0] += plays[i]
+        album[genres[i]][1].append([plays[i], i])
     
-    total = sorted(total_dic.items(),key = lambda x:x[1], reverse= True)
-    # print(total)
     
-    for i in range(len(total)) :
-        max_genre = total[i][0]
-        genre_list = sorted(genre_dic[max_genre], key = lambda x:x[0], reverse =True)
+    for key, value in album.items() :
+        arr.append([key, value])
+     
+    arr.sort(key = lambda x:(-x[1][0]))
+    
+    for j in range(len(arr)) :
+        play = sorted(arr[j][1][1], key = lambda x:(-x[0],x[1]))
+        # print(play)
+        if len(play) < 2 :
+            for k in range(len(play)) :
+                answer.append(play[k][1])
+        else :
+            for k in range(2) :
+                answer.append(play[k][1])
         
-        for j in range(min(2, len(genre_list))) :
-            answer.append(genre_list[j][1])
         
-            
-            
+
+        
     return answer
