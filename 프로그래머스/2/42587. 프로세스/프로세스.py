@@ -1,30 +1,28 @@
 from collections import deque
 def solution(priorities, location):
-    # answer = 0
-    task = deque()
-    sort_priority = sorted(priorities,reverse = True)
+    answer = 0
+    tasks = deque([])
+    order = sorted(priorities[:], reverse=True)
     
     for i in range(len(priorities)) :
-        task.append([i, priorities[i]])
-    # print(sort_priority)
-    cnt = 1
-    i=0
-    while task :
-        first = task.popleft()
-        # print(first)
+        tasks.append([priorities[i],i])
         
-        if sort_priority[i] == first[1] :
-            i += 1
-            if first[0] == location :
-                return cnt
-            else :
-                cnt+=1
+    k = 0
+
+    while tasks :
+        task = tasks.popleft()
+        # print(task)
+        if task[0] == order[k] :
+            answer+=1
+            k+=1
+            if task[1] == location :
+                return answer
         else :
-            task.append(first)
+            tasks.append(task)
         
         
-                
-        
-        
-        
-    return cnt
+    
+    
+                      
+    
+    return answer
