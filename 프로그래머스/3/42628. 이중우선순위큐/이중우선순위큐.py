@@ -1,31 +1,52 @@
 import heapq
+
 def solution(operations):
-    answer = []
-    max_q = []
     min_q = []
-    
-    for i in range(len(operations)) :
-        op, num = operations[i].split(" ")
-        if op == 'I' :
-            heapq.heappush(max_q, -int(num))
-            heapq.heappush(min_q, int(num))
-        elif op == 'D' :
-            if num == '1' :
-                if max_q and min_q:
+    max_q = []
+    count = {}
+
+    for operation in operations:
+        command, num = operation.split()
+        num = int(num)
+
+        if command == "I":
+            heapq.heappush(min_q, num)
+            heapq.heappush(max_q, -num)
+            count[num] = count.get(num, 0) + 1
+
+        elif command == "D":
+            if not count:
+                continue
+
+            if num == 1:
+                while max_q and count.get(-max_q[0], 0) == 0:
                     heapq.heappop(max_q)
-                    min_q.pop()
-            elif num == '-1' :
-                if max_q and min_q :
+
+                if max_q:
+                    value = -heapq.heappop(max_q)
+                    count[value] -= 1
+
+                    if count[value] == 0:
+                        del count[value]
+
+            else:
+                while min_q and count.get(min_q[0], 0) == 0:
                     heapq.heappop(min_q)
-                    max_q.pop()
-    
-    # print(max_q, min_q)
-    if not max_q and not min_q :
-        answer = [0,0]
-    else :
-        answer = [-max_q[0], min_q[0]]
-    
-    
-    
-    
-    return answer
+
+                if min_q:
+                    value = heapq.heappop(min_q)
+                    count[value] -= 1
+
+                    if count[value] == 0:
+                        del count[value]
+
+    while min_q and count.get(min_q[0], 0) == 0:
+        heapq.heappop(min_q)
+
+    while max_q and count.get(-max_q[0], 0) == 0:
+        heapq.heappop(max_q)
+
+    if not count:
+        return [0, 0]
+
+    return [-max_q[0], min_q[0]]
