@@ -1,12 +1,20 @@
+from collections import deque
 def solution(phone_book):
     answer = True
-    phone_book.sort()
+    books = deque(sorted(phone_book))
+                  
     # print(phone_book)
     
-    for i in range(len(phone_book)-1) :
-        phone = phone_book[i]
+    while books :
+        target = books.popleft()
+        
+        for i in range(len(books)) :
+            if target == books[i][0:len(target)] :
+                return False
+            else :
+                break
+        
+        
     
-        if phone == phone_book[i+1][0:len(phone)] :
-            return False
             
     return answer
