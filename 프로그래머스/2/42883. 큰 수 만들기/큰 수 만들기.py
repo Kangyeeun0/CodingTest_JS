@@ -5,14 +5,16 @@ def solution(number, k):
         while stack and k > 0 and stack[-1] < num :
             stack.pop()
             k-=1
-        
+            
         stack.append(num)
         
-    # print(stack)
-    if k> 0 :
+        
+    if k > 0 :
         stack = stack[:-k]
+        
     
     
+    # print(stack)
     
-
+    
     return "".join(stack)
