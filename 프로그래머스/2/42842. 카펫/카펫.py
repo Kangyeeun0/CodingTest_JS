@@ -1,17 +1,15 @@
 def solution(brown, yellow):
     answer = []
+    a = 1
+    b= 1
     width = brown + yellow
-    
-    for i in range(1, int(yellow**0.5) + 1) :
+    for i in range(1, int(yellow**(1/2))+1) :
         if yellow % i == 0 :
-            w = yellow // i
+            a = i+2
+            b = yellow //i + 2
             
-            W = w + 2
-            H = i + 2
-            
-            if W*H == width :
-                return [W, H]
-            
+            if a*b == width :
+                return [b,a]
+
         
-    
-    return answer
+    return [b,a]
