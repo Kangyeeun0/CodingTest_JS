@@ -1,20 +1,29 @@
 def solution(answers):
-    answer = [0,0,0]
-    one = [1, 2, 3, 4, 5]
+    answer = []
+    n = len(answers)
+    one = [1,2,3,4,5]
     two = [2,1,2,3,2,4,2,5]
     three = [3,3,1,1,2,2,4,4,5,5]
+    dic = {1:0,2:0,3:0}
     
     for i in range(len(answers)) :
-        if answers[i] == one[i%len(one)] :
-            answer[0] += 1
-        if answers[i] == two[i%len(two)] :
-            answer[1] += 1
-        if answers[i] == three[i%len(three)] :
-            answer[2] += 1
+        if one[i%len(one)] == answers[i] :
+            dic[1]+=1
+        if two[i%len(two)] == answers[i] :
+            dic[2] +=1
+        if three[i%len(three)] == answers[i] :
+            dic[3] +=1
             
-    max_answer = max(answer)
-    result = []
-    for j in range(len(answer)) :
-        if max_answer == answer[j] :
-            result.append(j+1)
-    return result
+    arr=list(dic.items())
+    arr.sort(key = lambda x:x[1], reverse=True)
+    max_v=arr[0][1]
+    for i in range(len(arr)) :
+        if max_v == arr[i][1] :
+            answer.append(arr[i][0])
+            
+    
+    
+            
+    
+    
+    return answer
