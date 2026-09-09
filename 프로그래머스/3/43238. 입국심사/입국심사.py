@@ -1,25 +1,21 @@
 def solution(n, times):
     answer = 0
-    left = 1
-    right = n* max(times)
- 
+    right = n * max(times)
+    left = 0
     
-    while left <= right :
+    while left < right :
         mid = (left+right) // 2
-        cnt = 0
-        
+        people = 0
         for time in times :
-            cnt += (mid // time)
+            people+= mid//time
             
-        if cnt >= n :
+        if people >= n :
+            right = mid
             answer = mid
-            right = mid-1
         else :
-            left = mid+1
-        
+            left = mid + 1
             
-            
-            
+    
     
     
     return answer
