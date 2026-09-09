@@ -1,21 +1,18 @@
 def solution(n, lost, reserve):
-    lost_set = set(lost)
-    reserve_set = set(reserve)
+    same = set(lost) & set(reserve)
 
-    lost = lost_set - reserve_set
-    reserve = reserve_set - lost_set
-    
+    lost = sorted(set(lost) - same)
+    reserve = sorted(set(reserve) - same)
+
     answer = n - len(lost)
-    
-    
-    for l in sorted(lost) :
-        if l-1 in reserve :
-            answer+=1
-            reserve.remove(l-1)
-        elif l+1 in reserve :
-            answer+=1
-            reserve.remove(l+1)
-        else :
-            continue
-            
+
+    for student in lost:
+        if student - 1 in reserve:
+            reserve.remove(student - 1)
+            answer += 1
+
+        elif student + 1 in reserve:
+            reserve.remove(student + 1)
+            answer += 1
+
     return answer
