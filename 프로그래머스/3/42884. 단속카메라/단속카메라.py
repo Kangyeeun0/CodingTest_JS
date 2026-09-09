@@ -1,12 +1,23 @@
 def solution(routes):
-    answer = 1
-    routes.sort(key=lambda x:x[1])
-    check = routes[0][1]
+    answer = 0
+    
+    routes.sort(key = lambda x:x[1])
+    
+    # print(routes)
+    current = routes[0][1]
+    
+    answer+=1
     
     for route in routes :
-        if route[0] <= check :
+        start, end = route
+        
+        if start<=current<=end :
             continue
         else :
-            check = route[1]
+            current = end
             answer+=1
+            
+        # print(current)
+    
+    
     return answer
