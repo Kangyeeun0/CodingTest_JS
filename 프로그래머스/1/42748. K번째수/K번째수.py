@@ -1,10 +1,11 @@
 def solution(array, commands):
     answer = []
     
-    for c in commands :
-        i, j, k = c
-        cut_array = sorted(array[i-1:j])
-        # print(cut_array)
-        answer.append(cut_array[k-1])
-        
+    for command in commands :
+        start, end, k = command
+        arr = array[start-1:end]
+        # print(arr)
+        arr.sort()
+        answer.append(arr[k-1])
+    
     return answer
