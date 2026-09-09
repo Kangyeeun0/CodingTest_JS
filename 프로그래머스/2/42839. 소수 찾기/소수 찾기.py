@@ -1,42 +1,46 @@
-def solution(numbers):
-    answer = 0
-    number_arr = [k for k in numbers]
-    visited = [False] * len(number_arr)
-    prime_set = set()
-    
-    def isPrime(num) :
-        if num == 0 or num == 1 :
-            return False
-        elif num == 2 or num == 3 :
-            return True 
-        else :
-            for i in range(2, num//2+1) :
-                if num % i == 0 :
-                    return False
-        return True
+def isPrime(num) :
         
+    if num==0 or num == 1:
+        return False
+    elif num == 2 :
+        return True
+    for i in range(2, int(num**(1/2))+1) :
+        if num%i == 0 :
+            return False
+    return True
+
+def solution(numbers):
+    answer = []
+    arr = []
+    for n in numbers :
+        arr.append(n)
+    visited = [False] * len(arr)
+    print(arr)
     
-    def generateNum(num) :
+    def dfs(num) :
         nonlocal answer
         
-        if isPrime(int(num)) and int(num) not in prime_set :
-            answer+=1
-            prime_set.add(int(num))
+        if isPrime(int(num)) and int(num) not in answer:
+            answer.append(int(num))
+            
+        if len(num) == len(arr) : 
+            return
         
-        
-        for i in range(len(number_arr)) :
+        for i in range(len(arr)) :
             if not visited[i] :
                 visited[i] = True
-                generateNum(num+number_arr[i])
+                dfs(num+arr[i])
                 visited[i] = False
+        return
                 
+    for i in range(len(arr)) :
+        visited[i]=True
+        dfs(arr[i])
+        visited[i]=False
+                
+    
+    
 
-    for i in range(len(number_arr)) :
-        if not visited[i] :
-            visited[i] = True
-            generateNum(number_arr[i])
-            visited[i] = False            
-            
-   
 
-    return answer
+    
+    return len(answer)
