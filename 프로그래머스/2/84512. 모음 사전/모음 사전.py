@@ -1,25 +1,33 @@
-## 다시 풀어보기
 def solution(word):
     answer = 0
-    vowels = ['A', 'E', 'I', 'O', 'U']
+    words = ['A', 'E', 'I', 'O', 'U']
+    found = False
     
-    def generate(w) :
-        nonlocal answer
+    
+    def dfs(w) :
+        nonlocal answer, found
+        answer+=1
         
         if w == word :
-            return True
+            found = True
+            return answer
+        elif len(w) == len(words) :
+            return
         
-        if w != "" :
-            answer+=1
-        
-        if len(w) <5 :
-            for i in range(len(vowels)) :
-                if generate(w+vowels[i]) :
-                    return True
-        return False
-                
-        
-        
-    generate("")
+        for i in range(len(words)) :
+            dfs(w+words[i])
     
-    return answer + 1
+            if found :
+                break
+        return
+            
+            
+    for i in range(len(words)) :
+        dfs(words[i])
+        if found :
+            break
+        
+            
+    
+    
+    return answer
