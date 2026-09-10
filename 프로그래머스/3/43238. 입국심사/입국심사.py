@@ -1,21 +1,18 @@
 def solution(n, times):
     answer = 0
-    right = n * max(times)
     left = 0
+    right = max(times) * n
     
     while left < right :
-        mid = (left+right) // 2
+        mid = (left + right) // 2 
         people = 0
         for time in times :
-            people+= mid//time
+            people = people + (mid//time)
             
-        if people >= n :
+        if people >= n : # 정해진 수보다 크다면 시간 더 줄일 수 있음
             right = mid
             answer = mid
         else :
-            left = mid + 1
+            left = mid+1
             
-    
-    
-    
     return answer
