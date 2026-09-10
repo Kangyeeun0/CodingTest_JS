@@ -1,19 +1,21 @@
 def solution(numbers, target):
     answer = 0
+    visited = [False] * len(numbers)
     
-    def dfs(idx, total) :
+    def dfs(num, cnt) :
         nonlocal answer
         
-        if idx == len(numbers) :
-            if total == target :
+        if cnt == len(numbers) :
+            if num == target :
                 answer+=1
-                return answer
-                
-        if idx < len(numbers) :
-            dfs(idx+1, total+numbers[idx])
-            dfs(idx+1, total-numbers[idx])
-        
-        return 
-        
+            return
+        else:
+
+            dfs(num + numbers[cnt], cnt+1)        
+            dfs(num - numbers[cnt], cnt+1)
+                    
+            
     dfs(0,0)
+    
+    
     return answer
