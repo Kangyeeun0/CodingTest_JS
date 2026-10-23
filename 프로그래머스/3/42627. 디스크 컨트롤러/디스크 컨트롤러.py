@@ -2,39 +2,39 @@ import heapq
 from collections import deque
 
 def solution(jobs):
-    answer = 0
-    waiting_q = []
-    heapq.heapify(waiting_q)
+    answer = []
+    wait_q = []
+    heapq.heapify(wait_q)
+    not_start_jobs = []
     current_time = 0
-    n = len(jobs)
+    cnt = len(jobs)
     
     for i in range(len(jobs)) :
-        jobs[i] = [jobs[i][0], jobs[i][1], i]
-    jobs.sort(key = lambda x:x[0])    
-    jobs = deque(jobs)
+        start, need = jobs[i]
+        not_start_jobs.append([need, start, i])
     
-    total_time = 0
+    not_start_jobs.sort(key=lambda x:(x[1], x[0], x[2]))
+    not_start_jobs = deque(not_start_jobs)
+    first = not_start_jobs.popleft()
+    current_time = first[1]
+    heapq.heappush(wait_q, first)
+
+    
+    while wait_q : 
+        job = heapq.heappop(wait_q)
+        current_time += job[0]
+        answer.append(current_time - job[1])
+        
+        while not_start_jobs and current_time >= not_start_jobs[0][1] :
+            next_job = not_start_jobs.popleft()
+            heapq.heappush(wait_q, next_job)
+        
+        if not wait_q :
+            if not_start_jobs:
+                next_job = not_start_jobs.popleft()
+                heapq.heappush(wait_q, next_job)
+                current_time = next_job[1]
+
         
     
-    while waiting_q or jobs :
-        # 현재시간이 맨 앞에 있는 job의 요청 시간보다 크면 대기열에 해당 job 넣기
-        while jobs and current_time >= jobs[0][0] :
-            job = jobs.popleft()
-            heapq.heappush(waiting_q, [job[1], job[0], job[2]])
-        
-        # 대기열에 작업 존재하면 처리
-        if waiting_q :
-            job = heapq.heappop(waiting_q)
-            # print(job)
-            current_time += job[0]
-            total_time += (current_time - job[1])
-        else :
-            if jobs :
-                current_time = jobs[0][0]
-                
-    # print(current_time)
-    # print(total_time)
-    
-    answer = total_time//n
-    
-    return answer
+    return sum(answer)//cnt
